@@ -13,7 +13,7 @@ public class UserDto {
     @Length(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
     private String name;
 
-    @Email
+    @Email(message = "Email should be valid")
     @NotEmpty(message = "Email is required")
     private String email;
 
