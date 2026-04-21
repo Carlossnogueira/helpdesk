@@ -1,5 +1,6 @@
 package com.github.carlossnogueira.helpdesk.controller;
 
+import com.github.carlossnogueira.helpdesk.business.dto.GenericMessageDto;
 import com.github.carlossnogueira.helpdesk.business.dto.UserDto;
 import com.github.carlossnogueira.helpdesk.business.user.RegisterUserService;
 import jakarta.validation.Valid;
@@ -18,9 +19,9 @@ public class UserController {
     private RegisterUserService registerUserService;
 
     @PostMapping("/users")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<GenericMessageDto> registerUser(@Valid @RequestBody UserDto userDto) {
         var user = this.registerUserService.execute(userDto);
-        return ResponseEntity.ok("User registered successfully");
+        return ResponseEntity.ok(new GenericMessageDto("User registered successfully!"));
     }
 
 }
