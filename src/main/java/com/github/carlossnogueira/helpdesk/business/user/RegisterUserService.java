@@ -24,8 +24,7 @@ public class RegisterUserService {
                 .password(userDto.getPassword())
                 .build();
 
-        var result = this.userRepository.save(user);
-        return result;
+        return this.userRepository.save(user);
     }
 
 }

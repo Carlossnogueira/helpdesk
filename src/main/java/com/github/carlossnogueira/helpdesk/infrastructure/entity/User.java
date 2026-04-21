@@ -1,13 +1,12 @@
 package com.github.carlossnogueira.helpdesk.infrastructure.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -24,5 +23,6 @@ public class User {
 
     private String password;
 
+    @Builder.Default
     private Role role = Role.USER;
 }
