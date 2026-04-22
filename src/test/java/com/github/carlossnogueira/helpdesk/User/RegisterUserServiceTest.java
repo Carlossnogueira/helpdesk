@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -23,6 +24,9 @@ public class RegisterUserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private RegisterUserService registerUserService;
 
@@ -35,17 +39,20 @@ public class RegisterUserServiceTest {
         userDto.setPassword("12345678910");
 
         when(userRepository.findByEmail(userDto.getEmail())).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(userDto.getPassword())).thenReturn("hashed_password");
+
+        var hashedPassword = passwordEncoder.encode(userDto.getPassword());
 
         User userToSave = User.builder()
                 .name(userDto.getName())
                 .email(userDto.getEmail())
-                .password(userDto.getPassword())
+                .password(hashedPassword)
                 .build();
 
         User savedUser = User.builder()
                 .name(userDto.getName())
                 .email(userDto.getEmail())
-                .password(userDto.getPassword())
+                .password(userToSave.getPassword())
                 .build();
 
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
@@ -54,9 +61,9 @@ public class RegisterUserServiceTest {
 
 
         assertNotNull(result);
-        assertEquals(userDto.getName(), result.getName());
-        assertEquals(userDto.getEmail(), result.getEmail());
-        assertEquals(userDto.getPassword(), result.getPassword());
+        assertEquals(userToSave.getName(), result.getName());
+        assertEquals(userToSave.getEmail(), result.getEmail());
+        assertEquals(userToSave.getPassword(), result.getPassword());
 
         verify(userRepository).findByEmail(userDto.getEmail());
         verify(userRepository).save(any(User.class));
