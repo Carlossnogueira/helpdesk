@@ -22,7 +22,7 @@ public class Ticket {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Builder.Default
