@@ -3,10 +3,12 @@ package com.github.carlossnogueira.helpdesk.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Builder
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -25,4 +27,9 @@ public class User {
 
     @Builder.Default
     private Role role = Role.USER;
+
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Ticket> tickets;
 }
