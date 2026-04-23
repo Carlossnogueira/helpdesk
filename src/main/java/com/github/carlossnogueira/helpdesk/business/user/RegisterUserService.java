@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.business.user;
 
-import com.github.carlossnogueira.helpdesk.business.dto.UserDto;
+import com.github.carlossnogueira.helpdesk.business.dto.user.UserDto;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.User;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.user.UserAlreadyExistsException;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.UserRepository;

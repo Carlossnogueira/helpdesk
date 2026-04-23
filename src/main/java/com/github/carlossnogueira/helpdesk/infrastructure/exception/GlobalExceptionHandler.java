@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.infrastructure.exception;
 
-import com.github.carlossnogueira.helpdesk.business.dto.ErrorOnValidationResponse;
+import com.github.carlossnogueira.helpdesk.business.dto.business.ErrorOnValidationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

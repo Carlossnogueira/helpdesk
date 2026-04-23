@@ -1,5 +1,7 @@
 package com.github.carlossnogueira.helpdesk.infrastructure.entity;
 
+import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Priority;
+import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,7 +31,7 @@ public class Ticket {
 
     @Builder.Default
     @Column(nullable = false)
-    private Priority  priority = Priority.NOT_MEASURED;
+    private Priority priority = Priority.NOT_MEASURED;
 
     @Builder.Default
     @Column(nullable = false)

@@ -1,9 +1,9 @@
 package com.github.carlossnogueira.helpdesk.User;
 
-import com.github.carlossnogueira.helpdesk.business.dto.LoginDto;
-import com.github.carlossnogueira.helpdesk.business.dto.TokenDto;
+import com.github.carlossnogueira.helpdesk.business.dto.auth.LoginDto;
+import com.github.carlossnogueira.helpdesk.business.dto.auth.TokenDto;
 import com.github.carlossnogueira.helpdesk.business.user.AuthenticateUserService;
-import com.github.carlossnogueira.helpdesk.infrastructure.entity.Role;
+import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Role;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.User;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.UserRepository;
 import org.junit.jupiter.api.Test;

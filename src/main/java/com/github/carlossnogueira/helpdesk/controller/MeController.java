@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.controller;
 
-import com.github.carlossnogueira.helpdesk.business.dto.MeDto;
+import com.github.carlossnogueira.helpdesk.business.dto.user.MeDto;
 import com.github.carlossnogueira.helpdesk.infrastructure.security.core.UserDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

@@ -1,7 +1,7 @@
 package com.github.carlossnogueira.helpdesk.controller;
 
-import com.github.carlossnogueira.helpdesk.business.dto.GenericMessageDto;
-import com.github.carlossnogueira.helpdesk.business.dto.UserDto;
+import com.github.carlossnogueira.helpdesk.business.dto.business.GenericMessageDto;
+import com.github.carlossnogueira.helpdesk.business.dto.user.UserDto;
 import com.github.carlossnogueira.helpdesk.business.user.RegisterUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

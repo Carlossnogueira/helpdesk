@@ -1,7 +1,7 @@
 package com.github.carlossnogueira.helpdesk.controller;
 
-import com.github.carlossnogueira.helpdesk.business.dto.LoginDto;
-import com.github.carlossnogueira.helpdesk.business.dto.TokenDto;
+import com.github.carlossnogueira.helpdesk.business.dto.auth.LoginDto;
+import com.github.carlossnogueira.helpdesk.business.dto.auth.TokenDto;
 import com.github.carlossnogueira.helpdesk.business.user.AuthenticateUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

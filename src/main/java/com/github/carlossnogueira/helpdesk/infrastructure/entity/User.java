@@ -1,5 +1,6 @@
 package com.github.carlossnogueira.helpdesk.infrastructure.entity;
 
+import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

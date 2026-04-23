@@ -1,4 +1,4 @@
-package com.github.carlossnogueira.helpdesk.business.dto;
+package com.github.carlossnogueira.helpdesk.business.dto.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

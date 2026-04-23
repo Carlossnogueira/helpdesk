@@ -1,4 +1,4 @@
-package com.github.carlossnogueira.helpdesk.business.dto;
+package com.github.carlossnogueira.helpdesk.business.dto.auth;
 
 
 import jakarta.validation.constraints.Email;

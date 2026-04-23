@@ -1,4 +1,4 @@
-package com.github.carlossnogueira.helpdesk.business.dto;
+package com.github.carlossnogueira.helpdesk.business.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

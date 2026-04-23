@@ -1,7 +1,7 @@
 package com.github.carlossnogueira.helpdesk.business.user;
 
-import com.github.carlossnogueira.helpdesk.business.dto.LoginDto;
-import com.github.carlossnogueira.helpdesk.business.dto.TokenDto;
+import com.github.carlossnogueira.helpdesk.business.dto.auth.LoginDto;
+import com.github.carlossnogueira.helpdesk.business.dto.auth.TokenDto;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.user.EmailOrPasswordIncorrectException;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.UserRepository;
 import com.github.carlossnogueira.helpdesk.infrastructure.security.JwtProvider;
