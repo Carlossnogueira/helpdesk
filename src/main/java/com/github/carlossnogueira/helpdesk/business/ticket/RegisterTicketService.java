@@ -1,4 +1,4 @@
-package com.github.carlossnogueira.helpdesk.business.user;
+package com.github.carlossnogueira.helpdesk.business.ticket;
 
 import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketDto;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.Ticket;
