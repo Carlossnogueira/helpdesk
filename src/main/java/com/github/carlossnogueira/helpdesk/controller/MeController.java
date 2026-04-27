@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.controller;
 
-import com.github.carlossnogueira.helpdesk.business.dto.user.MeDto;
+import com.github.carlossnogueira.helpdesk.business.dto.user.MeResponse;
 import com.github.carlossnogueira.helpdesk.infrastructure.security.core.UserDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MeController {
 
     @GetMapping("/me")
-    public ResponseEntity<MeDto> me() {
+    public ResponseEntity<MeResponse> me() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetail userDetail = (UserDetail) auth.getPrincipal();
 
-        var me  = new MeDto(userDetail.id(), userDetail.name(), userDetail.role()) ;
+        var me  = new MeResponse(userDetail.id(), userDetail.name(), userDetail.role()) ;
 
         return ResponseEntity.ok(me);
     }

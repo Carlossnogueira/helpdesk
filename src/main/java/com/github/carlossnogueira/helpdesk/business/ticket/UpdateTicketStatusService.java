@@ -1,7 +1,7 @@
 package com.github.carlossnogueira.helpdesk.business.ticket;
 
-import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketDetailsDto;
-import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketStatusUpdateDto;
+import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketDetailsResponse;
+import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketStatusUpdateRequest;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Status;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.ticket.TicketNotFoundException;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.ticket.TicketStatusCantBeChangedException;
@@ -15,7 +15,7 @@ public class UpdateTicketStatusService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public TicketDetailsDto execute(long id, TicketStatusUpdateDto dto) {
+    public TicketDetailsResponse execute(long id, TicketStatusUpdateRequest dto) {
         var ticket = ticketRepository.findById(id)
                 .orElseThrow(TicketNotFoundException::new);
 
@@ -31,7 +31,7 @@ public class UpdateTicketStatusService {
 
         var saved = ticketRepository.save(ticket);
 
-        return new TicketDetailsDto(
+        return new TicketDetailsResponse(
                 saved.getId(),
                 saved.getTitle(),
                 saved.getDescription(),

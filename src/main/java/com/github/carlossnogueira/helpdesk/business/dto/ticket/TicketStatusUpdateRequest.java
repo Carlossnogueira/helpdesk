@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class TicketStatusUpdateDto {
+public class TicketStatusUpdateRequest {
 
     @NotNull(message = "Status is required")
     private Status status;

@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.controller;
 
-import com.github.carlossnogueira.helpdesk.business.dto.business.GenericMessageDto;
+import com.github.carlossnogueira.helpdesk.business.dto.business.GenericMessageResponse;
 import com.github.carlossnogueira.helpdesk.business.dto.ticket.*;
 import com.github.carlossnogueira.helpdesk.business.ticket.*;
 import com.github.carlossnogueira.helpdesk.infrastructure.security.core.UserDetail;
@@ -11,8 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -37,12 +35,12 @@ public class TicketController {
     private UpdateTicketStatusService updateTicketStatusService;
 
     @PostMapping("/tickets")
-    public ResponseEntity<GenericMessageDto> createTicket(@Valid @RequestBody TicketDto ticketDto) {
+    public ResponseEntity<GenericMessageResponse> createTicket(@Valid @RequestBody TicketDto ticketDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetail userDetail = (UserDetail) authentication.getPrincipal();
 
         var result = registerTicketService.registerTicket(ticketDto, userDetail.id());
-        return ResponseEntity.ok().body(new GenericMessageDto("Ticket created successfully with ID: " + result.getId()));
+        return ResponseEntity.ok().body(new GenericMessageResponse("Ticket created successfully with ID: " + result.getId()));
     }
 
     @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN')")
@@ -53,21 +51,21 @@ public class TicketController {
 
     @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN')")
     @GetMapping("/tickets/{id}")
-    public ResponseEntity<TicketDetailsDto> getById(@PathVariable long id) {
+    public ResponseEntity<TicketDetailsResponse> getById(@PathVariable long id) {
         return ResponseEntity.ok(getTicketByIdService.execute(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/tickets/{id}")
-    public ResponseEntity<TicketDetailsDto> updateTicket(@PathVariable long id,
-                                                         @RequestBody TicketUpdateDto dto) {
+    public ResponseEntity<TicketDetailsResponse> updateTicket(@PathVariable long id,
+                                                              @RequestBody TicketUpdateDto dto) {
         return ResponseEntity.ok(updateTicketService.execute(id, dto));
     }
 
     @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN')")
     @PatchMapping("/tickets/{id}/status")
-    public ResponseEntity<TicketDetailsDto> updateStatus(@PathVariable long id,
-                                                         @Valid @RequestBody TicketStatusUpdateDto dto) {
+    public ResponseEntity<TicketDetailsResponse> updateStatus(@PathVariable long id,
+                                                              @Valid @RequestBody TicketStatusUpdateRequest dto) {
         return ResponseEntity.ok(updateTicketStatusService.execute(id, dto));
     }
 

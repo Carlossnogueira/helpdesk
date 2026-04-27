@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.business.ticket;
 
-import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketDetailsDto;
+import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketDetailsResponse;
 import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketPageResponse;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class ListTicketsService {
                 .tickets(
                         tickets.getContent()
                                 .stream()
-                                .map(ticket -> TicketDetailsDto.builder()
+                                .map(ticket -> TicketDetailsResponse.builder()
                                         .id(ticket.getId())
                                         .title(ticket.getTitle())
                                         .description(ticket.getDescription())

@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.business.dto.user;
 
-public record MeDto(
+public record MeResponse(
         long id,
         String name,
         String role

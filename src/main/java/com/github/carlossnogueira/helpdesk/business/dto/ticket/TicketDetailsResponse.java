@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @AllArgsConstructor
 @Builder
-public class TicketDetailsDto {
+public class TicketDetailsResponse {
     private Long id;
     private String title;
     private String description;

@@ -17,6 +17,6 @@ public class TicketPageResponse {
     private int TotalPages;
     private int size;
     private boolean lastPage;
-    private List<TicketDetailsDto> tickets;
+    private List<TicketDetailsResponse> tickets;
 
 }

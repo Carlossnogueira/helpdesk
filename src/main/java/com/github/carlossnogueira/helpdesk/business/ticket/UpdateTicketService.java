@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.business.ticket;
 
-import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketDetailsDto;
+import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketDetailsResponse;
 import com.github.carlossnogueira.helpdesk.business.dto.ticket.TicketUpdateDto;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Status;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.ticket.TicketAlreadyClosed;
@@ -15,7 +15,7 @@ public class UpdateTicketService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public TicketDetailsDto execute(long id, TicketUpdateDto dto) {
+    public TicketDetailsResponse execute(long id, TicketUpdateDto dto) {
         var ticket = ticketRepository.findById(id)
                 .orElseThrow(TicketNotFoundException::new);
 
@@ -28,7 +28,7 @@ public class UpdateTicketService {
         var saved = ticketRepository.save(ticket);
 
 
-        return TicketDetailsDto.builder()
+        return TicketDetailsResponse.builder()
                 .id(saved.getId())
                 .title(saved.getTitle())
                 .description(saved.getDescription())
