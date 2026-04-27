@@ -13,16 +13,18 @@ public class GetTicketByIdService {
     private TicketRepository ticketRepository;
 
     public TicketDetailsDto execute(long id){
-        var ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFoundException());
+        var ticket = ticketRepository.findById(id).orElseThrow(TicketNotFoundException::new);
 
-        return new TicketDetailsDto(
-                ticket.getId(),
-                ticket.getTitle(),
-                ticket.getDescription(),
-                ticket.getCreatedAt(),
-                ticket.getUser().getName(),
-                ticket.getUser().getEmail()
-        );
+        return TicketDetailsDto.builder()
+                .id(ticket.getId())
+                .title(ticket.getTitle())
+                .description(ticket.getDescription())
+                .status(ticket.getStatus())
+                .priority(ticket.getPriority())
+                .createdAt(ticket.getCreatedAt())
+                .calledBy(ticket.getUser().getName())
+                .calledByEmail(ticket.getUser().getEmail())
+                .build();
 
     }
 

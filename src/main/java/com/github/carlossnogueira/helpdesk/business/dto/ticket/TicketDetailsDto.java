@@ -1,12 +1,21 @@
 package com.github.carlossnogueira.helpdesk.business.dto.ticket;
 
+import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Priority;
+import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Status;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
-public record TicketDetailsDto(
-        Long id,
-        String title,
-        String description,
-        LocalDateTime createdAt,
-        String calledBy,
-        String calledByEmail
-) { }
+@Getter @Setter
+@AllArgsConstructor
+@Builder
+public class TicketDetailsDto {
+    private Long id;
+    private String title;
+    private String description;
+    private Status status;
+    private Priority priority;
+    private LocalDateTime createdAt;
+    private String calledBy;
+    private String calledByEmail;
+}

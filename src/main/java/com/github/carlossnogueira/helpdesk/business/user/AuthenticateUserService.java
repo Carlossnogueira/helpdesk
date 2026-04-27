@@ -23,9 +23,7 @@ public class AuthenticateUserService {
     private JwtProvider jwtProvider;
 
     public TokenDto generateToken(LoginDto loginDto){
-        var user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(
-                () -> new EmailOrPasswordIncorrectException()
-        );
+        var user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(EmailOrPasswordIncorrectException::new);
 
         var passwordMatches = passwordEncoder.matches(loginDto.getPassword(), user.getPassword());
 
