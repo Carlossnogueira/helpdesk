@@ -2,6 +2,8 @@ package com.github.carlossnogueira.helpdesk.controller;
 
 import com.github.carlossnogueira.helpdesk.business.dto.user.MeResponse;
 import com.github.carlossnogueira.helpdesk.infrastructure.security.core.UserDetail;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MeController {
 
+    @Operation(summary = "Get the authenticated user's information")
+    @ApiResponse(responseCode = "200", description = "Returns the authenticated user's information")
     @GetMapping("/me")
     public ResponseEntity<MeResponse> me() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

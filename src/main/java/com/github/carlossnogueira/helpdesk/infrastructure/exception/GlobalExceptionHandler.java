@@ -1,6 +1,6 @@
 package com.github.carlossnogueira.helpdesk.infrastructure.exception;
 
-import com.github.carlossnogueira.helpdesk.business.dto.business.ErrorOnValidationResponse;
+import com.github.carlossnogueira.helpdesk.business.dto.business.ApplicationErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,8 +13,8 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(HelpDeskExceptionBase.class)
-    public ResponseEntity<ErrorOnValidationResponse> handleHelpDeskExceptionBase(HelpDeskExceptionBase ex) {
-        var response = new ErrorOnValidationResponse(
+    public ResponseEntity<ApplicationErrorResponse> handleHelpDeskExceptionBase(HelpDeskExceptionBase ex) {
+        var response = new ApplicationErrorResponse(
                 LocalDateTime.now(),
                 ex.getHttpStatus().value(),
                 List.of(ex.getMessage())
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorOnValidationResponse> handleMethodArgumentNotValidException(
+    public ResponseEntity<ApplicationErrorResponse> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex
     ) {
         var errors = ex.getBindingResult()
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .toList();
 
-        return ResponseEntity.badRequest().body(new ErrorOnValidationResponse(
+        return ResponseEntity.badRequest().body(new ApplicationErrorResponse(
                 LocalDateTime.now(),
                 400,
                 errors
