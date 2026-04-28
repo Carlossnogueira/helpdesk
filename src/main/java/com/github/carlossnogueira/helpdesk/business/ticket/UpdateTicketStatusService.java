@@ -16,10 +16,19 @@ public class UpdateTicketStatusService {
     private TicketRepository ticketRepository;
 
     public TicketDetailsResponse execute(long id, TicketStatusUpdateRequest dto) {
+
+        if (!dto.getStatus().equals(Status.OPEN.name()) &&
+                !dto.getStatus().equals(Status.CLOSED.name())) {
+            throw new TicketStatusCantBeChangedException();
+        }
+
+        Status selectedStatus  = Status.valueOf(dto.getStatus());
+
+
         var ticket = ticketRepository.findById(id)
                 .orElseThrow(TicketNotFoundException::new);
 
-        if(ticket.getStatus() == Status.IN_PROGRESS && dto.getStatus() == Status.OPEN) {
+        if(selectedStatus == Status.IN_PROGRESS && selectedStatus == Status.OPEN) {
             throw new TicketStatusCantBeChangedException();
         }
 
@@ -27,7 +36,7 @@ public class UpdateTicketStatusService {
             throw new TicketStatusCantBeChangedException();
         }
 
-        ticket.setStatus(dto.getStatus());
+        ticket.setStatus(selectedStatus);
 
         var saved = ticketRepository.save(ticket);
 
