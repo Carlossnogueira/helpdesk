@@ -32,6 +32,7 @@ public class Ticket {
 
     @Builder.Default
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Priority priority = Priority.NOT_MEASURED;
 
     @Builder.Default

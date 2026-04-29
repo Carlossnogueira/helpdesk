@@ -1,6 +1,5 @@
 package com.github.carlossnogueira.helpdesk.controller;
 
-import com.github.carlossnogueira.helpdesk.business.dto.business.ApplicationErrorResponse;
 import com.github.carlossnogueira.helpdesk.business.dto.business.GenericMessageResponse;
 import com.github.carlossnogueira.helpdesk.business.dto.ticket.*;
 import com.github.carlossnogueira.helpdesk.business.ticket.*;
@@ -9,10 +8,7 @@ import com.github.carlossnogueira.helpdesk.documentation.DeniedAccessResponses;
 import com.github.carlossnogueira.helpdesk.documentation.ResourceNotFoundResponses;
 import com.github.carlossnogueira.helpdesk.infrastructure.security.core.UserDetail;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +38,9 @@ public class TicketController {
 
     @Autowired
     private UpdateTicketStatusService updateTicketStatusService;
+
+    @Autowired
+    private SetTicketPriorityService setTicketPriorityService;
 
     @Operation(summary = "Create a new support ticket")
     @ApiResponse(responseCode = "200", description = "Returns a success message with the ID of the created ticket")
@@ -107,6 +106,17 @@ public class TicketController {
     public ResponseEntity<Void> deleteTicket(@PathVariable long id) {
         deleteTicketService.execute(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Change Ticket priority")
+    @ApiResponse(responseCode = "200", description = "Returns the updated support ticket details with new priority")
+    @DeniedAccessResponses
+    @ResourceNotFoundResponses
+    @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN')")
+    @PatchMapping("/tickets/{id}/priority")
+    public ResponseEntity<TicketDetailsResponse> updatePriority(@PathVariable long id,
+                                                              @Valid @RequestBody TicketPriorityUpdateRequest dto) {
+        return ResponseEntity.ok(setTicketPriorityService.execute(id, dto));
     }
 
 }
