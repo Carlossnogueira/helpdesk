@@ -9,6 +9,7 @@ import com.github.carlossnogueira.helpdesk.documentation.ResourceNotFoundRespons
 import com.github.carlossnogueira.helpdesk.infrastructure.security.core.UserDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,20 +59,28 @@ public class TicketController {
     @Operation(summary = "List support tickets with pagination")
     @ApiResponse(responseCode = "200", description = "Returns a paginated list of support tickets")
     @DeniedAccessResponses
-    @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN','USER')")
     @GetMapping("/tickets")
     public ResponseEntity<TicketPageResponse> listTickets(@RequestParam(defaultValue = "0") int page) {
-        return ResponseEntity.ok(listTicketsService.execute(page));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetail userDetail = (UserDetail) authentication.getPrincipal();
+        return ResponseEntity.ok(listTicketsService.execute(page, userDetail));
     }
 
     @Operation(summary = "Get details of a specific support ticket by ID")
-    @ApiResponse(responseCode = "200", description = "Returns the details of the specified support ticket")
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns the details of the specified support ticket"),
+            @ApiResponse(responseCode = "404", description = "Support ticket not found"),
+    })
     @DeniedAccessResponses
     @ResourceNotFoundResponses
-    @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPPORT', 'ADMIN', 'USER')")
     @GetMapping("/tickets/{id}")
     public ResponseEntity<TicketDetailsResponse> getById(@PathVariable long id) {
-        return ResponseEntity.ok(getTicketByIdService.execute(id));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetail userDetail = (UserDetail) authentication.getPrincipal();
+        return ResponseEntity.ok(getTicketByIdService.execute(id, userDetail));
     }
 
     @Operation(summary = "Update an existing support ticket")
