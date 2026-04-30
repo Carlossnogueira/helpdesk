@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 public class TicketAlreadyClosed extends HelpDeskExceptionBase {
     public TicketAlreadyClosed() {
-        super("Ticket is closed and can't edit properties", HttpStatus.CONFLICT);
+        super("Ticket is closed", HttpStatus.CONFLICT);
     }
 }

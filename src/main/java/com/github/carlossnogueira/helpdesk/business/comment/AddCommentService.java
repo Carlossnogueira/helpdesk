@@ -5,6 +5,7 @@ import com.github.carlossnogueira.helpdesk.business.dto.comment.CommentResponse;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.Comment;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Status;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.comment.UnauthorizedTicketCommentException;
+import com.github.carlossnogueira.helpdesk.infrastructure.exception.ticket.TicketAlreadyClosed;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.ticket.TicketNotFoundException;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.CommentRepository;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.TicketRepository;
@@ -29,6 +30,10 @@ public class AddCommentService {
 
         var ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(TicketNotFoundException::new);
+
+        if(ticket.getStatus().equals(Status.CLOSED)) {
+            throw new TicketAlreadyClosed();
+        }
 
         boolean isUser = userDetail.role().equals("USER");
         boolean isAdminOrSupport = userDetail.role().equals("ADMIN") || userDetail.role().equals("SUPPORT");
