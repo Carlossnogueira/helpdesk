@@ -114,7 +114,18 @@ O sistema possui três papéis com permissões distintas:
 | `SUPPORT` | Suporte técnico. Visualiza todos os chamados, comenta, muda status e define prioridade. |
 | `ADMIN` | Administrador. Acesso total: edita, deleta, muda status, define prioridade e comenta. |
 
-> **Obs:** novos usuários são registrados com role `USER` por padrão. A alteração de role deve ser feita diretamente no banco de dados.
+> **Obs:** novos usuários são registrados com role `USER` por padrão. Somente um `ADMIN` pode criar usuários com role `SUPPORT` (veja a seção de rotas Admin abaixo).
+
+### 🌱 Admin padrão (Seed)
+
+Na **primeira execução**, o sistema cria automaticamente um usuário `ADMIN`:
+
+| Campo | Valor |
+|---|---|
+| E-mail | `admin@helpdesk.com` |
+| Senha | `admin@123` |
+
+> ⚠️ **Troque a senha após o primeiro login.** As credenciais são exibidas no log da aplicação na primeira inicialização.
 
 ---
 
@@ -146,6 +157,38 @@ O sistema possui três papéis com permissões distintas:
 ```
 
 > Todas as rotas abaixo exigem o header: `Authorization: Bearer <token>`
+
+---
+
+### 🔐 Admin
+
+#### `POST /api/admin/users/support` — Criar usuário SUPPORT _(requer role ADMIN)_
+
+Cria um novo usuário com role `SUPPORT`. Apenas administradores têm acesso.
+
+```json
+{
+  "name": "Carlos Suporte",
+  "email": "carlos@helpdesk.com",
+  "password": "suporte123"
+}
+```
+
+#### `PATCH /api/admin/password` — Alterar senha do admin _(requer role ADMIN)_
+
+Permite que o administrador autenticado altere sua própria senha.
+
+```json
+{
+  "currentPassword": "admin@123",
+  "newPassword": "novaSenha456"
+}
+```
+
+| Campo | Regra |
+|---|---|
+| `currentPassword` | Obrigatório. Deve corresponder à senha atual. |
+| `newPassword` | Obrigatório. Entre 8 e 20 caracteres. |
 
 ---
 
@@ -246,7 +289,7 @@ Cobertura por módulo:
 
 | Módulo | Classes testadas |
 |---|---|
-| User | `RegisterUserService`, `AuthenticateUserService` |
+| User | `RegisterUserService`, `AuthenticateUserService`, `ChangeAdminPasswordService` |
 | Ticket | `RegisterTicketService`, `GetTicketByIdService`, `ListTicketsService`, `UpdateTicketService`, `DeleteTicketService`, `UpdateTicketStatusService`, `SetTicketPriorityService` |
 | Comment | `AddCommentService`, `ListCommentsService` |
 
