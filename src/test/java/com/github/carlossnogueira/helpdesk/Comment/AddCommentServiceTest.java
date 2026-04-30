@@ -10,6 +10,7 @@ import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Priority;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Role;
 import com.github.carlossnogueira.helpdesk.infrastructure.entity.enums.Status;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.comment.UnauthorizedTicketCommentException;
+import com.github.carlossnogueira.helpdesk.infrastructure.exception.ticket.TicketAlreadyClosed;
 import com.github.carlossnogueira.helpdesk.infrastructure.exception.ticket.TicketNotFoundException;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.CommentRepository;
 import com.github.carlossnogueira.helpdesk.infrastructure.repository.TicketRepository;
@@ -162,31 +163,28 @@ public class AddCommentServiceTest {
         addCommentService.execute(10L, dto, adminDetail);
 
         assertEquals(Status.IN_PROGRESS, ticket.getStatus());
-        // Status was already IN_PROGRESS — save should NOT be called for ticket
         verify(ticketRepository, never()).save(any(Ticket.class));
     }
 
     @Test
-    void shouldNotChangeStatusWhenTicketIsClosed() {
+    void shouldThrowExceptionWhenTicketIsClosedAndAnyoneTriesToComment() {
         var owner = buildUser(1L, "Alice");
         var ticket = buildTicket(10L, owner, Status.CLOSED);
-        var admin = buildUser(99L, "Admin");
         var adminDetail = new UserDetail(99L, "Admin", Role.ADMIN.name());
 
         var dto = new CommentDto();
-        dto.setText("Closing note");
-
-        var saved = buildSavedComment(104L, dto.getText(), admin, ticket);
+        dto.setText("Trying to comment on closed ticket");
 
         when(ticketRepository.findById(10L)).thenReturn(Optional.of(ticket));
-        when(userRepository.getReferenceById(99L)).thenReturn(admin);
-        when(commentRepository.save(any(Comment.class))).thenReturn(saved);
 
-        addCommentService.execute(10L, dto, adminDetail);
+        assertThrows(TicketAlreadyClosed.class, () ->
+                addCommentService.execute(10L, dto, adminDetail));
 
-        assertEquals(Status.CLOSED, ticket.getStatus());
+        verify(commentRepository, never()).save(any());
         verify(ticketRepository, never()).save(any(Ticket.class));
     }
+
+
 
     @Test
     void shouldThrowExceptionWhenUserCommentsOnOtherUserTicket() {
